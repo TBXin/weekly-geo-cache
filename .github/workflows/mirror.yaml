@@ -44,7 +44,7 @@ jobs:
           TAG="$(date -u +'%Y.%m.%d')"
           gh release create "$TAG" geoip.dat geosite.dat checksums.txt \
               --repo "$GITHUB_REPOSITORY" \
-              --title "geo $TAG" \
+              --title "Released on $TAG" \
               --notes "Snapshot upstream от $(date -u +'%Y-%m-%d %H:%M UTC')" \
           || gh release upload "$TAG" geoip.dat geosite.dat checksums.txt \
               --repo "$GITHUB_REPOSITORY" --clobber
