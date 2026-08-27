@@ -1,0 +1,60 @@
+name: Weekly geo mirror
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'      # понедельник, 03:00 UTC
+  workflow_dispatch:          # кнопка ручного запуска
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download upstream
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 5 --retry-delay 10 -o geoip.dat \
+            https://raw.githubusercontent.com/runetfreedom/russia-blocked-geoip/release/geoip.dat
+          curl -fsSL --retry 5 --retry-delay 10 -o geosite.dat \
+            https://raw.githubusercontent.com/runetfreedom/russia-blocked-geosite/release/geosite.dat
+
+      - name: Sanity check
+        run: |
+          set -euo pipefail
+          for f in geoip.dat geosite.dat; do
+            size=$(stat -c%s "$f")
+            echo "$f: $size bytes"
+            [ "$size" -gt 200000 ] || { echo "::error::$f подозрительно мал"; exit 1; }
+          done
+          sha256sum geoip.dat geosite.dat > checksums.txt
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="$(date -u +'%Y.%m.%d')"
+          gh release create "$TAG" geoip.dat geosite.dat checksums.txt \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "geo $TAG" \
+              --notes "Snapshot upstream от $(date -u +'%Y-%m-%d %H:%M UTC')" \
+          || gh release upload "$TAG" geoip.dat geosite.dat checksums.txt \
+              --repo "$GITHUB_REPOSITORY" --clobber
+
+      - name: Keep repo active
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp checksums.txt last-sync.txt
+          date -u +'%Y-%m-%d %H:%M UTC' >> last-sync.txt
+          git add last-sync.txt
+          git commit -m "sync $(date -u +'%F')" || exit 0
+          git push
