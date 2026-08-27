@@ -1,6 +1,6 @@
 [English](README.md) | **Русский**
 
-# geo-mirror
+# Еженедельный кэш get.dat файлов от runetfreedom
 
 Еженедельный кеш geo-файлов для Xray / Happ.
 
@@ -12,9 +12,9 @@
 
 | Файл | Ссылка |
 |------|--------|
-| `geoip.dat` | `https://github.com/TBXin/geo-mirror/releases/latest/download/geoip.dat` |
-| `geosite.dat` | `https://github.com/TBXin/geo-mirror/releases/latest/download/geosite.dat` |
-| `checksums.txt` | `https://github.com/TBXin/geo-mirror/releases/latest/download/checksums.txt` |
+| `geoip.dat` | `https://github.com/TBXin/weekly-geo-cache/releases/latest/download/geoip.dat` |
+| `geosite.dat` | `https://github.com/TBXin/weekly-geo-cache/releases/latest/download/geosite.dat` |
+| `checksums.txt` | `https://github.com/TBXin/weekly-geo-cache/releases/latest/download/checksums.txt` |
 
 `releases/latest/download/` всегда указывает на последний опубликованный релиз и отдаёт `302` на CDN GitHub, поэтому клиент должен следовать редиректам (Xray и Happ это умеют).
 
@@ -44,9 +44,9 @@ GitHub Actions ([`.github/workflows/mirror.yml`](.github/workflows/mirror.yml)) 
 ## Проверка целостности
 
 ```bash
-curl -fsSLO https://github.com/TBXin/geo-mirror/releases/latest/download/geoip.dat
-curl -fsSLO https://github.com/TBXin/geo-mirror/releases/latest/download/geosite.dat
-curl -fsSL  https://github.com/TBXin/geo-mirror/releases/latest/download/checksums.txt | sha256sum -c -
+curl -fsSLO https://github.com/TBXin/weekly-geo-cache/releases/latest/download/geoip.dat
+curl -fsSLO https://github.com/TBXin/weekly-geo-cache/releases/latest/download/geosite.dat
+curl -fsSL  https://github.com/TBXin/weekly-geo-cache/releases/latest/download/checksums.txt | sha256sum -c -
 ```
 
 ## Примечания
