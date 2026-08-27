@@ -12,9 +12,9 @@ Use these in your client instead of the upstream URLs:
 
 | File | URL |
 |------|-----|
-| `geoip.dat` | `https://github.com/<USERNAME>/geo-mirror/releases/latest/download/geoip.dat` |
-| `geosite.dat` | `https://github.com/<USERNAME>/geo-mirror/releases/latest/download/geosite.dat` |
-| `checksums.txt` | `https://github.com/<USERNAME>/geo-mirror/releases/latest/download/checksums.txt` |
+| `geoip.dat` | `https://github.com/TBXin/geo-mirror/releases/latest/download/geoip.dat` |
+| `geosite.dat` | `https://github.com/TBXin/geo-mirror/releases/latest/download/geosite.dat` |
+| `checksums.txt` | `https://github.com/TBXin/geo-mirror/releases/latest/download/checksums.txt` |
 
 `releases/latest/download/` always points at the most recent published release and returns a `302` to GitHub's CDN, so the client must follow redirects (Xray and Happ do).
 
@@ -44,9 +44,9 @@ To refresh manually: **Actions → Weekly geo mirror → Run workflow**.
 ## Verifying integrity
 
 ```bash
-curl -fsSLO https://github.com/<USERNAME>/geo-mirror/releases/latest/download/geoip.dat
-curl -fsSLO https://github.com/<USERNAME>/geo-mirror/releases/latest/download/geosite.dat
-curl -fsSL  https://github.com/<USERNAME>/geo-mirror/releases/latest/download/checksums.txt | sha256sum -c -
+curl -fsSLO https://github.com/TBXin/geo-mirror/releases/latest/download/geoip.dat
+curl -fsSLO https://github.com/TBXin/geo-mirror/releases/latest/download/geosite.dat
+curl -fsSL  https://github.com/TBXin/geo-mirror/releases/latest/download/checksums.txt | sha256sum -c -
 ```
 
 ## Notes
